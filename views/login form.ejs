@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="../public/login.css">
+
+
+</head>
+<body bgcolor="black">
+<div class="form-box">
+  <div class="button-box">
+    <div id="btn"></div>
+    <button type="button" class="toggle-btn" onclick="Login()">LogIn</button>
+    <button type="button" class="toggle-btn" onclick="Register()">Register</button>
+  </div>
+  <form id="LogIn"class="input-group"method="post">
+    <input type="text" class="input-feild" placeholder="user Id" required>
+    <input type="text" class="input-feild" placeholder="Enter Password" required>
+    <input type="checkbox" class="check-box" ><span>Remeber Password</span>
+    <button type="submit" class="submit-btn">LogIn</button>
+  </form>
+
+  <form id="Register"class="input-group" method="post">
+    <input type="text" class="input-feild" placeholder="user Id" required>
+    <input type="email" class="input-feild" placeholder="Email id" required>
+    <input type="text" class="input-feild" placeholder="Enter Password" required>
+    <input type="text" class="input-feild" placeholder="Confirm Password" required>
+    <input type="checkbox" class="check-box" ><span>agree to terms and conditions</span>
+    <button type="submit" class="submit-btn">Register</button>
+  </form>
+</div>
+<script>
+  var x = document.getElementById("LogIn");
+  var y = document.getElementById("Register");
+  var z = document.getElementById("btn");
+
+  function Register(){
+    x.style.left="-400px";
+    y.style.left="50px";
+    z.style.left="110px";
+  }
+
+  function Login(){
+    x.style.left="50px";
+    y.style.left="450px";
+    z.style.left="0";
+  }
+</script>
+
+
+
+</body>
+</html>
