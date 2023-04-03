@@ -1,0 +1,25 @@
+<%- include("../includes/header.ejs") %>
+<div class="container col-6 border border-info mt-5 pt-4 pb-4">
+    <div class="alert alert-primary display-4 mx-auto text-center" role="alert">
+       Role
+      </div>
+    </hr>
+    <p <%= locals.error ? '' : "hidden" %> class="alert alert-danger"><%= locals.error %>
+<form method="post">
+    <div class="mb-3">
+      <label for="exampleInputusername1" class="form-label">Role</label>
+      <input type="username" name='role' class="form-control" id="exampleInputusername1" aria-describedby="emailHelp">
+      
+    </div>
+    <div class="mb-3">
+        <label for="exampleInputusername1" class="form-label">Description</label>
+        <input type="username" name='description' class="form-control" id="exampleInputusername1" aria-describedby="emailHelp">
+        
+      </div>
+   
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+
+
+<%- include("../includes/footer.ejs") %>

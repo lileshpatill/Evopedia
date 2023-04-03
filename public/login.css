@@ -4,7 +4,9 @@
     font-family: poppins;
 
 }
-
+body{
+    background-color: black;
+}
 .form-box{
     width: 380px;
     height: 480px;

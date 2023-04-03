@@ -11,13 +11,17 @@
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
     "ejs": "^3.1.8",
     "express": "^4.18.2",
+    "express-jwt": "^8.4.1",
+    "express-session": "^1.17.3",
     "hbs": "^4.2.0",
     "jsonwebtoken": "^9.0.0",
     "mongodb": "^5.0.0",
     "mongoose": "^6.9.0",
     "nodemon": "^2.0.20",
-    "request": "^2.88.2"
+    "request": "^2.88.2",
+    "uuidv4": "^6.2.13"
   }
 }
