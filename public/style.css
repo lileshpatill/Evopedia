@@ -1,50 +1,45 @@
-*{
-	margin: 0;
-	padding: 0;
-	font-family: Poppins;
-	background-color: #13f332;
+* {
+  margin: 0;
+  padding: 0;
+  font-family: Poppins;
+  background-color: #13f332;
 }
 
-.logo img{
-	float: left;
-	padding-left: 25%;
-	padding-top: 7%;
-	width: 150px;
-	height:150px ;
+.logo img {
+  float: left;
+  padding-left: 25%;
+  padding-top: 7%;
+  width: 150px;
+  height: 150px;
 }
 
-.aboutus-text{
-	padding-top: 10%;
-	padding-left: 40%;
-	color: white;
+.aboutus-text {
+  padding-top: 10%;
+  padding-left: 40%;
+  color: white;
 }
 
-
-.contactus{
-	color: white;
-	text-align: center;
-	
-	
+.contactus {
+  color: white;
+  text-align: center;
 }
 
-.contactus h2{
-	padding-top: 180px;
-	
+.contactus h2 {
+  padding-top: 180px;
 }
 
-.contactus .sa{
-	padding-top: 30px;
+.contactus .sa {
+  padding-top: 30px;
 }
 
-.contactus .sa .phoneno p{
-	float: left;
-	padding-left: 35%;
-	
+.contactus .sa .phoneno p {
+  float: left;
+  padding-left: 35%;
 }
 
-.contactus .sa .email p{
-	float: left;
-	padding-left: 15%;
+.contactus .sa .email p {
+  float: left;
+  padding-left: 15%;
 }
 
 /*.img1 img{
@@ -56,37 +51,23 @@
 
 }*/
 
-.icons img{
-/*float: left;*/
-     height: 100px;
-	 width: 100px;
-	 margin-top: 20px;
-	margin-bottom: 20px;
-	padding-right:60px ;
-	margin-left: 330px;
+.icons img {
+  /*float: left;*/
+  height: 100px;
+  width: 100px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding-right: 60px;
+  margin-left: 330px;
 
-	
-
-	
-	
-	
-	
-	
-	
-	/*border: 50px groove rgb(19, 243, 50);
+  /*border: 50px groove rgb(19, 243, 50);
 	/*filter: invert(1);*/
 }
 
+.iconstext p {
+  float: left;
+  color: white;
 
-.iconstext p{
-	float: left;
-	color: white;
-	
-	text-align: center;
-	padding-left: 290px;
-	
-	
-	
-	
+  text-align: center;
+  padding-left: 290px;
 }
-

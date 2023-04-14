@@ -14,9 +14,11 @@ const login_post = async (req, res, next) => {
     const username = req.body.username;
     const password = req.body.password;
     console.log(password);
-    const usernamee = await LogIn.findOne({ email: username });
+    const usernamee = await LogIn.findOne({
+      email: username,
+    });
     const all = await LogIn.find();
-    console.log(all);
+    console.log(usernamee);
     console.log("U", usernamee.firstname);
     const password_match = await bcrypt.compare(
       password,
@@ -32,6 +34,9 @@ const login_post = async (req, res, next) => {
         // res.send("success");
 
         req.session.user = req.body.username;
+        req.session.firstName = usernamee.firstname;
+        req.session.lasttName = usernamee.lastname;
+        req.session.Email = usernamee.Email;
         req.session.role = usernamee.role;
         // console.log(req.session.user);
 

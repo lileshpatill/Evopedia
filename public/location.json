@@ -4,8 +4,13 @@
       {
         "type": "Feature",
         "properties": {
-          "marker-color": "#24f915",
-          "marker-size": "medium"
+        "marker-size": "medium" 
+        },
+       
+        
+        "icon": {
+          "url": "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
+        
         },
         "geometry": {
           "coordinates": [

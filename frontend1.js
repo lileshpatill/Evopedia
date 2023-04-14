@@ -5,6 +5,9 @@ const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
 const LogIn = require("./models/user.js");
 const Chargingstation = require("./models/chargingstation.js");
+const data = require("./public/location.json");
+//console.log(data);
+
 const userRouter = require("./routes/auth.js");
 const chargingRouter = require("./routes/charging.js");
 const roleRouter = require("./routes/roles.js");
@@ -28,6 +31,7 @@ app.set("view engine", "ejs");
 //app.use(express.static("public")); //to serve the static files
 require("./db/conn");
 const User = require("./models/user");
+const router = require("./routes/auth.js");
 
 app.use("/public", express.static("public"));
 app.set("engine", "ejs");
@@ -56,7 +60,14 @@ app.use((req, res, next) => {
 app.get("/", (req, res) => {
   console.log(req.session);
   // res.redirect("/auth/login/");
-  res.render("frontend.ejs", { user: req.session.user });
+  console.log(req.session.user);
+  // const usernamee = LogIn.findOne({
+  //   email: req.session.user,
+  // });
+  console.log("usernamee      ", req.session.firstName);
+  // const firstName = usernamee.firstname;
+
+  res.render("frontend.ejs", { user: req.session.firstName });
 });
 app.get("/demo", roleCheck.roleCheck("user"), function (req, res) {
   res.json({ role: "Some basic !" });
@@ -135,29 +146,6 @@ console.log("Went in router");
 app.all("*", function (_, res) {
   res.render("404.ejs");
 });
-
-// app.use(session({
-//   secret: 'keyboard cat',
-//   resave: false,
-//   saveUninitialized: false,
-//   cookie: { secure: true }
-// }));
-
-// passport.serializeUser(function(user, cb) {
-//   process.nextTick(function() {
-//     return cb(null, {
-//       id: user.id,
-//       username: user.username,
-//       picture: user.picture
-//     });
-//   });
-// });
-
-// passport.deserializeUser(function(user, cb) {
-//   process.nextTick(function() {
-//     return cb(null, user);
-//   });
-// });
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
