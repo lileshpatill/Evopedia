@@ -18,30 +18,38 @@ const register_get1 = (req, res) => {
 
 //   router.post("/register",
 
-const register_post = (req, res) => {
+const register_post = async (req, res) => {
   try {
     const password = req.body.Password;
     const cpassword = req.body.Confirmpassword;
 
     if (password === cpassword) {
-      const User = new LogIn({
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
-        username: req.body.username,
+      const usernamee = await LogIn.findOne({
         email: req.body.Email,
-        Password: password,
-        Confirmpassword: cpassword,
-        role: "user",
       });
-
-      console.log(User);
-      const LogIn_Save = User.save();
-      console.log(LogIn_Save);
-      res.status(201).redirect("/auth/login");
+      if (!usernamee) {
+        const User = new LogIn({
+          firstname: req.body.firstname,
+          lastname: req.body.lastname,
+          username: req.body.username,
+          email: req.body.Email,
+          Password: password,
+          Confirmpassword: cpassword,
+          role: "user",
+        });
+        console.log(User);
+        const LogIn_Save = User.save();
+        console.log(LogIn_Save);
+        res.status(201).redirect("/auth/login");
+      } else {
+        res.render("auth/register", {
+          error: "User with Similar Email already exists!",
+        });
+      }
     } else {
       // res.send("password are not matching");
       res.render("auth/register", {
-        error: "Password & Confirmpassowrd are not matching!",
+        error: "Password & Confirm Password are not matching!",
       });
     }
   } catch (error) {

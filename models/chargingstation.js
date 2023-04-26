@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const StationSchema = new mongoose.Schema({
-  chargingstationname: {
+  station: {
     type: String,
     require: true,
   },
@@ -8,27 +8,27 @@ const StationSchema = new mongoose.Schema({
     type: String,
     require: true,
   },
-  phoneno: {
+  phone: {
+    type: Number,
+  },
+  chargeType: {
     type: String,
   },
   description: {
     type: String,
-  },
-  cost: {
-    type: String,
-  },
-  amenities: {
-    type: String,
-  },
-  plug: {
-    type: String,
     require: true,
   },
-  reviews: {
-    type: String,
+  latitude: {
+    type: Number,
+    require: true,
   },
-  photos: {
-    type: Buffer,
+  longitude: {
+    type: Number,
+    require: true,
+  },
+  pay: {
+    type: String,
+    require: true,
   },
 });
 const Chargingstation = mongoose.model("Station", StationSchema);

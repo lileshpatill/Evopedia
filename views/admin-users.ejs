@@ -1,0 +1,82 @@
+<%- include("./includes/header.ejs") %>
+<div class="container col-10 border border-info mt-5 pt-4 pb-4">
+    <div class="alert alert-primary display-4 mx-auto text-center" role="alert">
+    FEEDBACK LIST
+      </div>
+    </hr>
+    
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">FIRST NAME</th>
+            <th scope="col">LAST NAME</th>
+            <th scope="col">EMAIL</th>
+            <th scope="col">ROLE</th>
+            
+            
+            <!-- <th scope="col">ACTION</th> -->
+          </tr>
+        </thead>
+        <tbody>
+            <% var index = 1 %>
+            <%obj.forEach((charge)=>{%>
+                <tr>
+                    <td><%=index%></td>
+                    <td><%=charge.firstname%></td>
+                    <td><%=charge.lastname%></td>
+                    <td><%=charge.email%></td>
+                    <td><%=charge.role%></td>
+                    
+                    
+                        
+                </tr>
+                <% index++ %>
+                <%})%>
+        
+          
+<!--             
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td> -->
+          
+                  </tbody>
+      </table>
+</div>
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
+<script>
+$(function(){
+    $('#address').focusout(function() {
+        // console.log("iiiiii");
+        // console.log(a)
+        var addressinput = $(this).val();
+        var YOUR_API_KEY="AIzaSyCPf6GZdShufw5fwc8yH-GErlgsgwcE_i4"
+        
+        // alert("Inside city")
+      var saveData = $.ajax({
+      type: "POST",
+      url: `https://maps.googleapis.com/maps/api/geocode/json?address=${addressinput}&key=${YOUR_API_KEY}`,
+      data: "results",
+      dataType: "json",
+      success: function (resp) {
+        // alert(resp);
+        console.log(resp.results[0].geometry.location.lat);
+        console.log(resp.results[0].geometry.location.lng);
+        var lat=(resp.results[0].geometry.location.lat);
+        var lng=(resp.results[0].geometry.location.lng);
+        $("#lat").val(lat);
+        $("#lng").val(lng);
+    },
+    error: function(e){
+        console.log('Error: '+e);
+    }  
+    });
+    
+})
+});
+</script>
+
+
+<%- include("./includes/footer.ejs") %>

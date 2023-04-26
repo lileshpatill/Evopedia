@@ -1,0 +1,113 @@
+<%- include("./includes/header.ejs") %>
+<div class="container col-6 border border-info mt-5 pt-4 pb-4">
+    <div class="alert alert-primary display-4 mx-auto text-center" role="alert">
+       ADD CHARGING STATION
+      </div>
+    </hr>
+    
+<form method="post">
+    
+    <div class="mb-3">
+      <label for="exampleInputusername1" class="form-label">Station Name</label>
+      <input type="text" name='station' id="stn" class="form-control" id="exampleInputusername1" aria-describedby="emailHelp" required>
+      
+    </div>
+    <div class="mb-3">
+        <label for="exampleInputusername1" class="form-label">City Name</label>
+        <input type="text" name='city' class="form-control" id="city1" required>
+        
+      </div>
+
+      <div class="mb-3">
+        <label for="exampleInputusername1" class="form-label">Pay</label>
+        <input type="text" name='pay' class="form-control" id="exampleInputusername1" required>
+        
+      </div>
+
+      <div class="mb-3">
+        <label for="exampleInputusername1" class="form-label">Latitude</label>
+        <input type="number" step="any" name='latitude' class="form-control" id="lat" readonly required>
+        
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputusername1" class="form-label">Longitude</label>
+        <input type="number" step="any" name='longitude' class="form-control" id="lng" readonly required>
+        
+      </div>
+
+
+    <div class="mb-3">
+      <label for="exampleInputPassword1" class="form-label">Phone Number</label>
+      <input type="number" name='phone' class="form-control" id="exampleInputPassword1" required>
+    </div>
+
+
+    <div class="mb-3">
+        <label for="exampleFormControlTextarea1" class="form-label">Address</label>
+        <textarea class="form-control" id="address" name="address" id="exampleFormControlTextarea1" rows="3" required></textarea>
+      </div>
+      <div class="mb-3">
+        <label for="exampleFormControlTextarea1" class="form-label">Description</label>
+        <textarea class="form-control" name="description" id="exampleFormControlTextarea1" rows="3" required></textarea>
+      </div>
+   
+
+      <div class="form-check">
+        
+        <input class="form-check-input" type="radio" name="flexRadioDefault" value="fast" id="flexRadioDefault1" required>
+        <label class="form-check-label" for="flexRadioDefault1">
+          Fast Charging
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="flexRadioDefault" value="slow" id="flexRadioDefault2" required>
+        <label class="form-check-label" for="flexRadioDefault2">
+          Slow Charging
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="flexRadioDefault" value="both" id="flexRadioDefault3" required>
+        <label class="form-check-label" for="flexRadioDefault3">
+        Both  
+        </label>
+      </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
+<script>
+$(function(){
+    $('#address').focusout(function() {
+        // console.log("iiiiii");
+        // console.log(a)
+        var addressinput = $(this).val();
+        var YOUR_API_KEY="AIzaSyCPf6GZdShufw5fwc8yH-GErlgsgwcE_i4"
+        
+        // alert("Inside city")
+      var saveData = $.ajax({
+      type: "POST",
+      url: `https://maps.googleapis.com/maps/api/geocode/json?address=${addressinput}&key=${YOUR_API_KEY}`,
+      data: "results",
+      dataType: "json",
+      success: function (resp) {
+        // alert(resp);
+        console.log(resp.results[0].geometry.location.lat);
+        console.log(resp.results[0].geometry.location.lng);
+        var lat=(resp.results[0].geometry.location.lat);
+        var lng=(resp.results[0].geometry.location.lng);
+        $("#lat").val(lat);
+        $("#lng").val(lng);
+    },
+    error: function(e){
+        console.log('Error: '+e);
+    }  
+    });
+    
+})
+});
+</script>
+
+
+<%- include("./includes/footer.ejs") %>

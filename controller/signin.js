@@ -1,12 +1,13 @@
 const LogIn = require("../models/user.js");
 const bcrypt = require("bcryptjs");
-
+// const l = require("../frontend1.js");
 // const session = require("express-session");
 // const jwt = require("jsonwebtoken");
 // const user = require("../models/user");
 
 const login_get = (req, res) => {
-  res.render("auth/login.ejs", { name: "form" });
+  // console.log(l);
+  res.render("auth/login.ejs", { name: "form", user: req.session.firstName });
 };
 
 const login_post = async (req, res, next) => {
@@ -36,13 +37,15 @@ const login_post = async (req, res, next) => {
         req.session.user = req.body.username;
         req.session.firstName = usernamee.firstname;
         req.session.lasttName = usernamee.lastname;
-        req.session.Email = usernamee.Email;
+        req.session.Email = usernamee.email;
         req.session.role = usernamee.role;
         // console.log(req.session.user);
 
         console.log("Password Match..");
 
         res.status(202).redirect("/");
+        // res.redirect("back");
+        // res.redirect(req.originalUrl);
         // res.render("/");
         // res.json({ msg: "Logged in succesful" });
       } else {

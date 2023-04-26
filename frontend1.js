@@ -4,8 +4,12 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
 const LogIn = require("./models/user.js");
+const feedBack = require("./models/feedback.js");
+const feedChargingstationBack = require("./models/chargingstation.js");
 const Chargingstation = require("./models/chargingstation.js");
 const data = require("./public/location.json");
+// var jsonfile = require("jsonfile");
+const fs = require("fs");
 //console.log(data);
 
 const userRouter = require("./routes/auth.js");
@@ -15,6 +19,7 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 
 const roleCheck = require("./middleware/auth.js");
+const checkLogin = require("./middleware/auth.js");
 var bodyParser = require("body-parser");
 
 /*const router = express.Router();
@@ -57,86 +62,152 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/", (req, res) => {
-  console.log(req.session);
+app.get("/", async (req, res) => {
+  // coords = [];
+  // list = await Chargingstation.find({ latitude: { $exists: true } });
+  // for (let i = 0; i < list.length; i++) {
+  //   coords.push({ lat: list[i].latitude, lng: list[i].longitude });
+  //   console.log(list[i].latitude, list[i].longitude, list[i].chargeType);
+  // }
+  // const jsonData = JSON.stringify(coords);
+  // fs.writeFile("json1.json", jsonData, (err) => {
+  //   console.log("Done");
+  // });
+  // console.log("----------");
+  // console.log(coords);
+  // console.log(list[0]);
+  // console.log(req.session);
   // res.redirect("/auth/login/");
-  console.log(req.session.user);
+  // console.log(req.session.user);
   // const usernamee = LogIn.findOne({
   //   email: req.session.user,
   // });
-  console.log("usernamee      ", req.session.firstName);
+  // console.log("usernamee      ", req.session.firstName);
   // const firstName = usernamee.firstname;
+  const userAdmin = await LogIn.find({ firstname: req.session.firstName });
 
-  res.render("frontend.ejs", { user: req.session.firstName });
+  var is_admin = null;
+  if (userAdmin[0].role == "admin") {
+    is_admin = "admin";
+  } else {
+    is_admin = "user";
+  }
+  res.render("frontend.ejs", {
+    user: req.session.firstName,
+    admin: is_admin,
+  });
 });
 app.get("/demo", roleCheck.roleCheck("user"), function (req, res) {
   res.json({ role: "Some basic !" });
 });
 
-// app.get("/login", function (req, res) {
-//   res.render("auth/login.ejs", { name: "form" });
-// });
-
-// app.get("/register", function (req, res) {
-//   res.render("auth/register.ejs", { name: "form" });
-// });
-// app.post("/register", async (req, res) => {
-//   try {
-//     const password = req.body.Password;
-//     const cpassword = req.body.Confirmpassword;
-
-//     if (password === cpassword) {
-//       const User = new LogIn({
-//         firstname: req.body.firstname,
-//         lastname: req.body.lastname,
-//         username: req.body.username,
-//         Email: req.body.Email,
-//         Password: password,
-//         Confirmpassword: cpassword,
-//       });
-
-//       console.log(User);
-//       const LogIn_Save = User.save();
-//       console.log(LogIn_Save);
-//       res.status(201).redirect("/login");
-//     } else {
-//       res.send("password are not matching");
-//     }
-//   } catch (error) {
-//     res.status(400).send({ error: `Invalid  ${error}` });
-//   }
-// });
-
-// app.post("/login", async (req, res) => {
-//   try {
-//     const username = req.body.username;
-//     const password = req.body.Password;
-//     const usernamee = await User.findOne({ username: username });
-//     // console.log(usernamee);
-//     const password_match = await bcrypt.compare(
-//       password,
-//       usernamee.Confirmpassword
-//     );
-//     if (usernamee) {
-//       if (password_match) {
-//         res.status(202).redirect("/");
-//       } else {
-//         res.status(400).redirect("/login");
-//       }
-//     }
-//   } catch (error) {
-//     res.status(400).send({ error: `Invalid  ${error}` });
-//   }
-// });
-
 app.get("/aboutus", function (req, res) {
   res.render("aboutus.ejs", { name: "aboutus" });
 });
 
-//let name = req.body.name;
-//console.log(name);
-//res.send(name);
-//});
+app.get("/feedback", checkLogin.LoggedInUser, function (req, res) {
+  res.render("feedback.ejs", {
+    firstName: req.session.firstName,
+    lastName: req.session.lasttName,
+    email: req.session.Email,
+    user: req.session.firstName,
+  });
+});
+
+app.post("/feedback", function (req, res) {
+  console.log(req.body);
+  (firstname = req.body.firstname),
+    (lastname = req.body.lastname),
+    (email = req.body.email),
+    (state = req.body.state),
+    (subject = req.body.subject),
+    (feedback = new feedBack({
+      firstname: firstname,
+      lastname: lastname,
+      email: email,
+      state: state,
+      subject: subject,
+    }));
+  const feedBack_Save = feedback.save();
+  console.log(feedBack_Save);
+  res.status(201).redirect("/");
+});
+
+app.get("/charger/add", checkLogin.LoggedInUser, async (req, res) => {
+  res.render("charger.ejs", {
+    firstName: req.session.firstName,
+    lastName: req.session.lasttName,
+    email: req.session.Email,
+    user: req.session.firstName,
+  });
+});
+
+app.post("/charger/add", checkLogin.LoggedInUser, (req, res) => {
+  const station = req.body.station;
+  const phone = req.body.phone;
+  const pay = req.body.pay;
+  const city = req.body.city;
+  const address = req.body.address;
+  const description = req.body.description;
+  const latitude = req.body.latitude;
+  const longitude = req.body.longitude;
+  const flexRadioDefault = req.body.flexRadioDefault;
+  console.log(req.body);
+  charger = new Chargingstation({
+    station: station,
+    city: city,
+    address: address,
+    phone: phone,
+    pay: pay,
+    description: description,
+    chargeType: flexRadioDefault,
+    latitude: latitude,
+    longitude: longitude,
+  });
+  const charger_Save = charger.save();
+  console.log(charger_Save);
+  res.status(201).redirect("/");
+});
+
+app.get("/charger", async (req, res) => {
+  const charge = await Chargingstation.find({ latitude: { $exists: true } });
+  res.render("admin-list.ejs", { obj: charge, user: req.session.firstName });
+});
+
+app.get("/admin/feedback", checkLogin.roleCheck("admin"), async (req, res) => {
+  const feedback = await feedBack.find({ _id: { $exists: true } });
+  const userAdmin = await LogIn.find({ firstname: req.session.firstName });
+
+  var is_admin = null;
+  if (userAdmin[0].role == "admin") {
+    is_admin = "admin";
+  } else {
+    is_admin = "user";
+  }
+  res.render("admin-feedback.ejs", {
+    obj: feedback,
+    user: req.session.firstName,
+    admin: is_admin,
+  });
+});
+
+app.get("/admin/users", checkLogin.roleCheck("admin"), async (req, res) => {
+  const users = await LogIn.find({ _id: { $exists: true } });
+  console.log(users);
+  const userAdmin = await LogIn.find({ firstname: req.session.firstName });
+
+  var is_admin = null;
+  if (userAdmin[0].role == "admin") {
+    is_admin = "admin";
+  } else {
+    is_admin = "user";
+  }
+  res.render("admin-users.ejs", {
+    obj: users,
+    user: req.session.firstName,
+    admin: is_admin,
+  });
+});
 
 app.use("/auth", userRouter);
 app.use("/role", roleRouter);
