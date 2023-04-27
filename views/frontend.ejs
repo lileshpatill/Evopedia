@@ -41,15 +41,15 @@
                 <a href="/admin/users">Users Data</a>
                 <%}
                 %>
-               <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Filter</a>
+               <!-- <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Filter</a>
 
                <ul class="dropdown-menu">
                 <li><a class="dropdown-item" type="checkbox-dropdown"  href="#">CCS2<img src="../public/ccs2.png" width="50" height="50"><input type="checkbox" height="25" width="25"> </a></li>
                 <li><a class="dropdown-item" type="checkbox-dropdown" href="#">Type 2<img src="../public/type2.png" width="50" height="50"> <input type="checkbox" height="25" width="25"></a></li>
           </ul>
-        </li>
+        </li> -->
         <% if(user){ %>
-          <button class = dropdown> <a><%= user%></a></button>
+           <a><%= user%></a></button>
           <a href="/auth/logout">LogOut</a>
         <% } else{ %>  
           <a href="/auth/login">LogIn</a>
@@ -88,18 +88,18 @@
     
   <div id="myLinks">
     
-    <a href="#" ><img src="../public/legend.jpg" width="30" height="30">&nbsp&nbspLegend</a>
+    <!-- <a href="#" ><img src="../public/legend.jpg" width="30" height="30">&nbsp&nbspLegend</a>
     <ul class="dropdown-menu">
       <li><a href="#">CCS2</a></li>
-      <li><a href="#"> type 2</a></li>
+      <li><a href="#"> type 2</a></li> -->
     </ul>
     <a class="openDirection" href="#"><img src="../public/navigation.png" width="30" height="30">&nbsp&nbspNavigation </a>
     <% if(user){ %>
-    <a class="addStation" href="#"><img src="../public/add-point.png" width="30" height="30" onclick="initMap()">&nbsp&nbspAdd Station </a><% } %>
+    <a class="addStation" href="/charger/add"><img src="../public/add-point.png" width="30" height="30" >&nbsp&nbspAdd Station </a><% } %>
     <% if(user){ %>
     <a href="/feedback"><img src="../public/feedback.png" width="30" height="30">&nbsp&nbspFeedback</a>
     <% } %>
-    <a href="/charger" ><img src="../public/list1.png" width="40" height="30">&nbspCharging station list</a>
+    <a href="/charger" ><img src="../public/stationlist.png" width="30" height="25">&nbspCharging station list</a>
   </div>
 
   </a>
@@ -148,7 +148,7 @@ $(".close").on('click', function(){
   <input type="text" id="origin" name="origin"placeholder="Enter current/Starting location"><br>
 
   <h4><label for="destination">Destination:</label></h4>
-  <input type="text" id="destination" name="destination" placeholder="Enter Destinationlocation"><br>
+  <input type="text" id="destination" name="destination" placeholder="Enter Destination location"><br>
 
  <center> <input type="button" value="Get Directions" onclick="initMap()"></center>
 </form>

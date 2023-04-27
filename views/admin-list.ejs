@@ -1,5 +1,5 @@
 <%- include("./includes/header.ejs") %>
-<div class="container col-10 border border-info mt-5 pt-4 pb-4">
+<div class="container col-14 border border-info mt-5 pt-4 pb-4">
     <div class="alert alert-primary display-4 mx-auto text-center" role="alert">
     CHARGING STATION LIST
       </div>
@@ -15,7 +15,10 @@
             <th scope="col">DESCRIPTION</th>
             <th scope="col">PRICE PER UNIT</th>
             <th scope="col">CHARGER TYPE</th>
-            <!-- <th scope="col">ACTION</th> -->
+            <% if(admin=="admin"){ %>
+            <th scope="col">ACTION</th>
+            <%}
+            %>
           </tr>
         </thead>
         <tbody>
@@ -29,6 +32,10 @@
                     <td><%=charge.description%></td>
                     <td><%=charge.pay%></td>
                     <td><%=charge.chargeType%></td>
+                    <% if(admin=="admin"){ %>
+                      <td><a href="/charger/edit/<%=charge._id%>">EDIT</a> | <a href="/<%=charge._id%>">DELETE</a></th>
+                      <%}
+                      %>
                         
                 </tr>
                 <% index++ %>

@@ -19,8 +19,8 @@ const login_post = async (req, res, next) => {
       email: username,
     });
     const all = await LogIn.find();
-    console.log(usernamee);
-    console.log("U", usernamee.firstname);
+    // console.log(usernamee);
+    // console.log("U", usernamee.firstname);
     const password_match = await bcrypt.compare(
       password,
       usernamee.Confirmpassword
@@ -50,12 +50,12 @@ const login_post = async (req, res, next) => {
         // res.json({ msg: "Logged in succesful" });
       } else {
         // res.status(400).redirect("/auth/login");
-        res.render("/auth/login", { error: "Invalid email or password!" });
+        res.render("auth/login", { error: "Invalid email or password!" });
       }
     }
   } catch (error) {
     // res.status(400).send({ error: `Invalid  ${error}` });
-    res.render("auth/login.ejs", { error: "Invalid email or password!" });
+    res.render("auth/login", { error: "Invalid email or password!" });
   }
 };
 

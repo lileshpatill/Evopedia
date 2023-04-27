@@ -24,7 +24,7 @@
 
 .header a.active {
   background-color: dodgerblue;
-  color: white;
+  color: rgb(245, 238, 238);
 }
 
 .header-right {
@@ -101,7 +101,7 @@
   
   
   .topnav a.icon {
-    background: rgb(247, 238, 238);
+     background: rgb(247, 238, 238); 
     display: block;
     position: absolute;
     height: 55px;
