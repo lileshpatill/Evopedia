@@ -8,6 +8,7 @@ const feedBack = require("./models/feedback.js");
 const feedChargingstationBack = require("./models/chargingstation.js");
 const Chargingstation = require("./models/chargingstation.js");
 const data = require("./public/location.json");
+const mongo = require("mongodb");
 // var jsonfile = require("jsonfile");
 const fs = require("fs");
 //console.log(data);
@@ -61,36 +62,16 @@ app.use((req, res, next) => {
   }
   next();
 });
-
 app.get("/", async (req, res) => {
-  // coords = [];
-  // list = await Chargingstation.find({ latitude: { $exists: true } });
-  // for (let i = 0; i < list.length; i++) {
-  //   coords.push({ lat: list[i].latitude, lng: list[i].longitude });
-  //   console.log(list[i].latitude, list[i].longitude, list[i].chargeType);
-  // }
-  // const jsonData = JSON.stringify(coords);
-  // fs.writeFile("json1.json", jsonData, (err) => {
-  //   console.log("Done");
-  // });
-  // console.log("----------");
-  // console.log(coords);
-  // console.log(list[0]);
-  // console.log(req.session);
-  // res.redirect("/auth/login/");
-  // console.log(req.session.user);
-  // const usernamee = LogIn.findOne({
-  //   email: req.session.user,
-  // });
-  // console.log("usernamee      ", req.session.firstName);
-  // const firstName = usernamee.firstname;
-  const userAdmin = await LogIn.find({ firstname: req.session.firstName });
+  if (req.session.firstName) {
+    const userAdmin = await LogIn.find({ firstname: req.session.firstName });
 
-  var is_admin = null;
-  if (userAdmin[0].role == "admin") {
-    is_admin = "admin";
-  } else {
-    is_admin = "user";
+    var is_admin = null;
+    if (userAdmin[0].role == "admin") {
+      is_admin = "admin";
+    } else {
+      is_admin = "user";
+    }
   }
   res.render("frontend.ejs", {
     user: req.session.firstName,
@@ -171,7 +152,21 @@ app.post("/charger/add", checkLogin.LoggedInUser, (req, res) => {
 
 app.get("/charger", async (req, res) => {
   const charge = await Chargingstation.find({ latitude: { $exists: true } });
-  res.render("admin-list.ejs", { obj: charge, user: req.session.firstName });
+  if (req.session.firstName) {
+    const userAdmin = await LogIn.find({ firstname: req.session.firstName });
+
+    var is_admin = null;
+    if (userAdmin[0].role == "admin") {
+      is_admin = "admin";
+    } else {
+      is_admin = "user";
+    }
+  }
+  res.render("admin-list.ejs", {
+    obj: charge,
+    user: req.session.firstName,
+    admin: is_admin,
+  });
 });
 
 app.get("/admin/feedback", checkLogin.roleCheck("admin"), async (req, res) => {
@@ -193,7 +188,7 @@ app.get("/admin/feedback", checkLogin.roleCheck("admin"), async (req, res) => {
 
 app.get("/admin/users", checkLogin.roleCheck("admin"), async (req, res) => {
   const users = await LogIn.find({ _id: { $exists: true } });
-  console.log(users);
+  // console.log(users);
   const userAdmin = await LogIn.find({ firstname: req.session.firstName });
 
   var is_admin = null;
@@ -207,6 +202,15 @@ app.get("/admin/users", checkLogin.roleCheck("admin"), async (req, res) => {
     user: req.session.firstName,
     admin: is_admin,
   });
+});
+
+app.get("/:id", checkLogin.roleCheck("admin"), async (req, res) => {
+  obj = req.params.id;
+  console.log("----------><-------");
+  console.log(obj);
+  // const users = await LogIn.deleteOne({ _id: new mongodb(obj) });
+  res.send("/charger");
+  // console.log(obj);
 });
 
 app.use("/auth", userRouter);
