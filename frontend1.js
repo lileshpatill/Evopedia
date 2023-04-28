@@ -8,7 +8,8 @@ const feedBack = require("./models/feedback.js");
 const feedChargingstationBack = require("./models/chargingstation.js");
 const Chargingstation = require("./models/chargingstation.js");
 const data = require("./public/location.json");
-const mongo = require("mongodb");
+// const mongo = require("mongodb");
+var ObjectId = require("mongodb").ObjectID;
 // var jsonfile = require("jsonfile");
 const fs = require("fs");
 //console.log(data);
@@ -204,13 +205,37 @@ app.get("/admin/users", checkLogin.roleCheck("admin"), async (req, res) => {
   });
 });
 
-app.get("/:id", checkLogin.roleCheck("admin"), async (req, res) => {
-  obj = req.params.id;
-  console.log("----------><-------");
-  console.log(obj);
-  // const users = await LogIn.deleteOne({ _id: new mongodb(obj) });
-  res.send("/charger");
-  // console.log(obj);
+app.get("/charger/delete/:id", checkLogin.roleCheck("admin"), (req, res) => {
+  let id = req.params.id;
+  Chargingstation.findByIdAndRemove(req.params.id, (err, doc) => {
+    if (!err) {
+      res.redirect("/charger");
+    } else {
+      console.log(err);
+    }
+  });
+});
+
+app.get("/feedback/delete/:id", checkLogin.roleCheck("admin"), (req, res) => {
+  let id = req.params.id;
+  feedBack.findByIdAndRemove(req.params.id, (err, doc) => {
+    if (!err) {
+      res.redirect("/admin/feedback");
+    } else {
+      console.log(err);
+    }
+  });
+});
+
+app.get("/user/delete/:id", checkLogin.roleCheck("admin"), (req, res) => {
+  let id = req.params.id;
+  LogIn.findByIdAndRemove(req.params.id, (err, doc) => {
+    if (!err) {
+      res.redirect("/admin/users");
+    } else {
+      console.log(err);
+    }
+  });
 });
 
 app.use("/auth", userRouter);

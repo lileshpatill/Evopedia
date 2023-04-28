@@ -13,7 +13,10 @@
             <th scope="col">LAST NAME</th>
             <th scope="col">EMAIL</th>
             <th scope="col">ROLE</th>
-            
+            <% if(admin=="admin"){ %>
+              <th scope="col">ACTION</th>
+              <%}
+              %>
             
             <!-- <th scope="col">ACTION</th> -->
           </tr>
@@ -27,7 +30,10 @@
                     <td><%=charge.lastname%></td>
                     <td><%=charge.email%></td>
                     <td><%=charge.role%></td>
-                    
+                    <% if(admin=="admin"){ %>
+                      <td><a href="/user/delete/<%=charge._id%>">DELETE</a></th>
+                      <%}
+                      %>
                     
                         
                 </tr>

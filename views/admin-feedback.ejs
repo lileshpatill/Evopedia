@@ -14,6 +14,10 @@
             <th scope="col">EMAIL</th>
             <th scope="col">STATE</th>
             <th scope="col">FEEDBACK</th>
+            <% if(admin=="admin"){ %>
+              <th scope="col">ACTION</th>
+              <%}
+              %>
             
             <!-- <th scope="col">ACTION</th> -->
           </tr>
@@ -28,7 +32,10 @@
                     <td><%=charge.email%></td>
                     <td><%=charge.state%></td>
                     <td><%=charge.subject%></td>
-                    
+                    <% if(admin=="admin"){ %>
+                      <td><a href="/feedback/delete/<%=charge._id%>">DELETE</a></th>
+                      <%}
+                      %>
                         
                 </tr>
                 <% index++ %>
